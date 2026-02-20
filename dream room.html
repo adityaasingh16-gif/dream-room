@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Room Visualizer</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+        
+        /* UI Overlay */
+        #ui-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 250px;
+        }
+
+        h2 { margin-top: 0; font-size: 18px; color: #333; }
+        
+        label { display: block; margin-top: 10px; font-size: 14px; }
+        
+        input[type="color"] { width: 100%; height: 40px; border: none; cursor: pointer; }
+        
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #5649c0; }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+        }
+    </style>
+    <!-- Import Three.js from CDN -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- User Interface -->
+    <div id="ui-container">
+        <h2>Dream Room Settings</h2>
+        
+        <label>Wall Color</label>
+        <input type="color" id="wallColor" value="#e0e0e0">
+        
+        <label>Floor Color</label>
+        <input type="color" id="floorColor" value="#8e44ad">
+
+        <label>Add Furniture</label>
+        <button id="addCouch">Add Modern Couch</button>
+        <button id="addLamp">Add Floor Lamp</button>
+        <button id="clearFurniture">Clear Furniture</button>
+
+        <hr>
+        <button id="saveBtn" style="background: #00b894;">Save Design</button>
+        <div id="loading">Saved!</div>
+    </div>
+
+    <!-- 3D Scene Script -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // 1. Setup Scene, Camera, Renderer
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xdddddd);
+        
+        // Camera setup (Field of View, Aspect Ratio, Near Clip, Far Clip)
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, 8); // Start position
+
+        const renderer
